@@ -9,6 +9,7 @@ verify_ssl = true
 pytest-watch = "*"
 black = "*"
 ipython = "*"
+click = "*"
 
 [requires]
 python_version = "3.7"

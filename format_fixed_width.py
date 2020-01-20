@@ -69,15 +69,14 @@
 
 
 def get_widths(rows):
-    max_width = list(range(len(rows[0])))
+    widths = [0 for _ in range(len(rows[0]))]
     for row in rows:
         for i, col in enumerate(row):
-            max_width[i] = len(col) if len(col) > max_width[i] else max_width[i]
-    return max_width
+            widths[i] = len(col) if len(col) > widths[i] else widths[i]
+    return widths
 
 
 def format_fixed_width(rows, padding=2, widths=None, alignments=None):
-    result = []
     if not len(rows):
         return ""
 
@@ -87,17 +86,15 @@ def format_fixed_width(rows, padding=2, widths=None, alignments=None):
     if alignments is None:
         alignments = ["L" for row in rows for _ in row]
 
-    print(f"widths: {widths}")
-    print(f"alignments: {alignments}")
+    result = []
     for row in rows:
         row_str = ""
-        for i, col in enumerate(row):
-            if alignments[i] == "L":
-                row_str += f"{col}".ljust(widths[i] + padding)
+        for col, width, alignment in zip(row, widths, alignments):
+            if alignment == "L":
+                row_str += f"{col}".ljust(width + padding)
             else:
-                row_str += f"{col}".rjust(widths[i])
+                row_str += f"{col}".rjust(width)
 
         result.append(row_str.rstrip())
 
-    print("\n".join(result))
     return "\n".join(result)

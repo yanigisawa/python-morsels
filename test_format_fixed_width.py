@@ -17,6 +17,17 @@ class FormatFixedWidthTests(unittest.TestCase):
     def test_two_lists_with_one_element_each(self):
         self.assertEqual(format_fixed_width([["Jane"], ["Mark"]]), "Jane\nMark")
 
+    def test_missing_columns(self):
+        self.assertEqual(
+            format_fixed_width([["Jane"], ["Mark", "Twain"]]),
+            dedent(
+                """
+                Jane
+                Mark  Twain
+            """
+            ).strip("\n"),
+        )
+
     def test_two_lists_with_two_elements_each(self):
         self.assertEqual(
             format_fixed_width([["Jane", "Austen"], ["Mark", "Twain"]]),

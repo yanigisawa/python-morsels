@@ -67,21 +67,14 @@
 
 # If you want to unsubscribe from Python Morsels click here
 
-
-def get_widths(rows):
-    widths = [0 for _ in range(len(rows[0]))]
-    for row in rows:
-        for i, col in enumerate(row):
-            widths[i] = len(col) if len(col) > widths[i] else widths[i]
-    return widths
+from itertools import zip_longest
 
 
 def format_fixed_width(rows, padding=2, widths=None, alignments=None):
-    if not len(rows):
-        return ""
-
     if widths is None:
-        widths = get_widths(rows)
+        widths = [
+            max(len(cell) for cell in col) for col in zip_longest(*rows, fillvalue="")
+        ]
 
     if alignments is None:
         alignments = ["L" for row in rows for _ in row]
